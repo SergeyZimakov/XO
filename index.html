@@ -40,6 +40,7 @@
           </div>
           <br>
           <input type="button" id="" onclick="check()" value="Confirm">
+          <input type="button" id="" onclick="newGame()" value="New Game">
     </div>
     <div id="winnerPrint"></div>
 
@@ -50,7 +51,7 @@
 
     <script type="text/javascript">
         let move = 'X'
-        let state = {}
+        let state = {1: '', 2: '', 3: '', 4: '', 5: '', 6: '', 7: '', 8: '', 9: ''}
 
         function changeValue(e) {
             let value = e.target.innerHTML;
@@ -63,19 +64,17 @@
         }
 
         function getValues() {
-            let obj = {};
-            obj[1] = document.getElementById("box_1").innerHTML;
-            obj[2] = document.getElementById("box_2").innerHTML;
-            obj[3] = document.getElementById("box_3").innerHTML;
-            obj[4] = document.getElementById("box_4").innerHTML;
-            obj[5] = document.getElementById("box_5").innerHTML;
-            obj[6] = document.getElementById("box_6").innerHTML;
-            obj[7] = document.getElementById("box_7").innerHTML;
-            obj[8] = document.getElementById("box_8").innerHTML;
-            obj[9] = document.getElementById("box_9").innerHTML;
-            return obj;
-            
+            state[1] = document.getElementById("box_1").innerHTML;
+            state[2] = document.getElementById("box_2").innerHTML;
+            state[3] = document.getElementById("box_3").innerHTML;
+            state[4] = document.getElementById("box_4").innerHTML;
+            state[5] = document.getElementById("box_5").innerHTML;
+            state[6] = document.getElementById("box_6").innerHTML;
+            state[7] = document.getElementById("box_7").innerHTML;
+            state[8] = document.getElementById("box_8").innerHTML;
+            state[9] = document.getElementById("box_9").innerHTML;            
         }
+
         function equalArray(arr) {
             let flag = true;
             for (let i = 1; i < arr.length; i ++) {
@@ -89,15 +88,15 @@
             return flag;              
         }
 
-        function ifWinner(obj) {
-            if (equalArray([obj[1], obj[2], obj[3]]) ||
-            equalArray([obj[4], obj[5], obj[6]]) ||
-            equalArray([obj[7], obj[8], obj[9]]) ||
-            equalArray([obj[1], obj[4], obj[7]]) ||
-            equalArray([obj[2], obj[5], obj[8]]) ||
-            equalArray([obj[3], obj[6], obj[9]]) ||
-            equalArray([obj[1], obj[5], obj[9]]) || 
-            equalArray([obj[3], obj[5], obj[7]])) {
+        function ifWinner() {
+            if (equalArray([state[1], state[2], state[3]]) ||
+            equalArray([state[4], state[5], state[6]]) ||
+            equalArray([state[7], state[8], state[9]]) ||
+            equalArray([state[1], state[4], state[7]]) ||
+            equalArray([state[2], state[5], state[8]]) ||
+            equalArray([state[3], state[6], state[9]]) ||
+            equalArray([state[1], state[5], state[9]]) || 
+            equalArray([state[3], state[5], state[7]])) {
                return true;
            }
            else {
@@ -105,9 +104,9 @@
            }
            
         }
-        function draw(obj) {
-            for (item in obj) {
-                if (!obj[item]) {
+        function draw() {
+            for (item in state) {
+                if (!state[item]) {
                     return false
                 }
             }
@@ -117,20 +116,14 @@
 
         
         function check() {
-            let valuesObj = getValues();
-            if (ifWinner(valuesObj)) {
+            getValues();
+            if (ifWinner()) {
                 winnerPrint()
-                // if (state === 'X') {
-                //     console.log("X wins");
-                // }
-                // else {
-                //     console.log("O wins");
-                // }
             }
-            else if (draw(valuesObj)) {
+            else if (draw()) {
                 drawPrint()
             }
-            //cahnge state after move
+            //cahnge move after move
             if (move === 'X') {
                 move = 'O';
             } else {
@@ -142,6 +135,23 @@
         }
         function drawPrint() {
             document.getElementById('winnerPrint').innerHTML = `<h1>Draw</h1>`
+        }
+
+        function newGame() {
+            for (item in state) {
+                state[item] = ''
+            }
+            document.getElementById("box_1").innerHTML = state[1];
+            document.getElementById("box_2").innerHTML = state[2];
+            document.getElementById("box_3").innerHTML = state[3];
+            document.getElementById("box_4").innerHTML = state[4];
+            document.getElementById("box_5").innerHTML = state[5];
+            document.getElementById("box_6").innerHTML = state[6];
+            document.getElementById("box_7").innerHTML = state[7];
+            document.getElementById("box_8").innerHTML = state[8];
+            document.getElementById("box_9").innerHTML = state[9];
+            document.getElementById('winnerPrint').innerHTML = '' 
+
         }
         
     </script>
