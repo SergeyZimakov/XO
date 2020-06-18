@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <style>
+        * {box-sizing: border-box;}
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            height: 300px;
+            width: 300px;
+          }
+          
+          .box {
+            height: 100px;
+            width: 100px;
+            background-color: #ccc;
+            border: 2px solid black;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32;
+            font-weight: bold;
+          }
+    </style>
+</head>
+<body>
+    <div class="game__field">
+          <div class="grid">
+            <div class="box" id="box_1" onclick="changeValue(event)"></div>
+            <div class="box" id="box_2" onclick="changeValue(event)"></div>
+            <div class="box" id="box_3" onclick="changeValue(event)"></div>
+            <div class="box" id="box_4" onclick="changeValue(event)"></div>
+            <div class="box" id="box_5" onclick="changeValue(event)"></div>
+            <div class="box" id="box_6" onclick="changeValue(event)"></div>
+            <div class="box" id="box_7" onclick="changeValue(event)"></div>
+            <div class="box" id="box_8" onclick="changeValue(event)"></div>
+            <div class="box" id="box_9" onclick="changeValue(event)"></div>  
+          </div>
+          <br>
+          <input type="button" id="" onclick="check()" value="Confirm">
+    </div>
+    <div id="winnerPrint"></div>
+
+
+
+
+    <!-- //////////////script////////////////////// -->
+
+    <script type="text/javascript">
+        let move = 'X'
+        let state = {}
+
+        function changeValue(e) {
+            let value = e.target.innerHTML;
+            if (move === 'X') {
+                value = 'X';
+            } else {
+                value = 'O';
+            }
+            e.target.innerHTML = value;
+        }
+
+        function getValues() {
+            let obj = {};
+            obj[1] = document.getElementById("box_1").innerHTML;
+            obj[2] = document.getElementById("box_2").innerHTML;
+            obj[3] = document.getElementById("box_3").innerHTML;
+            obj[4] = document.getElementById("box_4").innerHTML;
+            obj[5] = document.getElementById("box_5").innerHTML;
+            obj[6] = document.getElementById("box_6").innerHTML;
+            obj[7] = document.getElementById("box_7").innerHTML;
+            obj[8] = document.getElementById("box_8").innerHTML;
+            obj[9] = document.getElementById("box_9").innerHTML;
+            return obj;
+            
+        }
+        function equalArray(arr) {
+            let flag = true;
+            for (let i = 1; i < arr.length; i ++) {
+                if (arr[i] !== arr[i-1]) {
+                    flag = false;
+                }
+            }
+            if (arr[0] === '') {
+                flag = false;
+            }
+            return flag;              
+        }
+
+        function ifWinner(obj) {
+            if (equalArray([obj[1], obj[2], obj[3]]) ||
+            equalArray([obj[4], obj[5], obj[6]]) ||
+            equalArray([obj[7], obj[8], obj[9]]) ||
+            equalArray([obj[1], obj[4], obj[7]]) ||
+            equalArray([obj[2], obj[5], obj[8]]) ||
+            equalArray([obj[3], obj[6], obj[9]]) ||
+            equalArray([obj[1], obj[5], obj[9]]) || 
+            equalArray([obj[3], obj[5], obj[7]])) {
+               return true;
+           }
+           else {
+               return false;
+           }
+           
+        }
+        function draw(obj) {
+            for (item in obj) {
+                if (!obj[item]) {
+                    return false
+                }
+            }
+            return true
+
+        }
+
+        
+        function check() {
+            let valuesObj = getValues();
+            if (ifWinner(valuesObj)) {
+                winnerPrint()
+                // if (state === 'X') {
+                //     console.log("X wins");
+                // }
+                // else {
+                //     console.log("O wins");
+                // }
+            }
+            else if (draw(valuesObj)) {
+                drawPrint()
+            }
+            //cahnge state after move
+            if (move === 'X') {
+                move = 'O';
+            } else {
+                move = 'X';
+            }
+        }
+        function winnerPrint() {
+            document.getElementById('winnerPrint').innerHTML = `<h1>${move} Wins</h1>`
+        }
+        function drawPrint() {
+            document.getElementById('winnerPrint').innerHTML = `<h1>Draw</h1>`
+        }
+        
+    </script>
+</body>
+</html>
